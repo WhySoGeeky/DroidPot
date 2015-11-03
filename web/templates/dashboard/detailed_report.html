@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %} Dashboard {% endblock %}
+
+{% block content-title %}
+    Report details
+{% endblock %}
+
+{% block content-subtite %}
+    Analysis result after session is completed
+{% endblock %}
+
+{% block alerts %}
+    {% if create_new_session %}
+        <div class="alert alert-info" role="alert" xmlns="http://www.w3.org/1999/html">New session created</div>
+    {% endif %}
+    {% if not devices %}
+        <div class="alert alert-danger" role="alert"><strong>No Android device found</strong>. Ensure device is connected and <strong>refresh page</strong>.</div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data" data-ajax="false">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+
+                            {% for name, html in detailed.items %}
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <div class="box-tools pull-right">
+                            <!--<span class="label label-primary">Label</span>-->
+                        </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="form-group">
+                                <h2>{{ name | upper}}</h2>
+                                {% autoescape off %}
+                                {{ html }}
+                                {% endautoescape %}
+                                                    </div>
+                    </div><!-- /.box-body -->
+                    <div class="box-footer">
+                    </div><!-- box-footer -->
+                </div><!-- /.box -->
+                            {% endfor %}
+
+
+
+            </div>
+        </div>
+    </form>
+
+{% endblock%}
+
+

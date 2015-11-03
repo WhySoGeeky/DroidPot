@@ -1,0 +1,8 @@
+[Core]
+Name = critical_files monitor
+Module = critical_files
+
+[Documentation]
+Author = new author
+Version = 0.1
+Description = new monitor

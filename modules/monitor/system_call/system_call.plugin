@@ -1,0 +1,8 @@
+[Core]
+Name = system_call monitor
+Module = system_call
+
+[Documentation]
+Author = new author
+Version = 0.1
+Description = new monitor

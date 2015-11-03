@@ -1,0 +1,10 @@
+Django==1.8.5
+django-admin-tools==0.5.2
+django-bootstrap-breadcrumbs==0.7.1
+django-bootstrap-form==3.2
+django-jsonify==0.3.0
+json2html==0.3
+ordereddict==1.1
+uiautomator==0.2.5
+urllib3==1.12
+Yapsy==1.11.23

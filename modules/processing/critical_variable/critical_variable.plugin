@@ -1,0 +1,9 @@
+
+[Core]
+Name = critical_variable
+Module = critical_variable
+
+[Documentation]
+Author = new author
+Version = 0.1
+Description = new profile

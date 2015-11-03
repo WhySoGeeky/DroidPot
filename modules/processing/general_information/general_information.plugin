@@ -1,0 +1,9 @@
+
+[Core]
+Name = general_information
+Module = general_information
+
+[Documentation]
+Author = new author
+Version = 0.1
+Description = new profile

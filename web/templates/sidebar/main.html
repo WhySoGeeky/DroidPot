@@ -1,0 +1,51 @@
+{% load additional_tags %}
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- search form (Optional) -->
+        <!--
+            <form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search..."/>
+                  <span class="input-group-btn">
+                    <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                  </span>
+                </div>
+            </form>
+            -->
+        <!-- /.search form -->
+
+        <!-- configuration Menu -->
+        <ul class="sidebar-menu">
+
+            <li><a href="/"><i class='glyphicon glyphicon-scale'></i> <span><strong>Dashboard</strong></span></a></li>
+            <li class="header">Menu</li>
+            <!-- Optionally, you can add icons to the links -->
+            <li><a href="{% url 'upload_sample' current_session.id %}"><i class='glyphicon glyphicon-open-file'></i> <span>Upload Sample</span></a></li>
+            <li><a href="{% url 'analysis_duration' current_session.id %}"><i class='glyphicon glyphicon-open-file'></i> <span>Analysis Duration</span></a></li>
+            <li class="treeview {% if isMonitoring %}active{% endif %}">
+                <a href="#"><i class='glyphicon glyphicon-eye-open'></i> <span>Monitoring</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu menu-open">
+                    {% for module_name, pluginInfo in monitorModules.items %}
+                        <li class="{% if module_info.name == pluginInfo.name %}active{% endif %}">
+                            <a href="/monitoring/{{ pluginInfo.name }}">{{ pluginInfo.name | replace_underscore}}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="treeview {% if isProfile %}active{% endif %}" >
+                <a href="#"><i class='glyphicon glyphicon-user'></i> <span>Device Profile</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    {% for module_name, pluginInfo in profileModules.items %}
+                        <li class="{% if module_info.name == pluginInfo.name %}active{% endif %}">
+                            <a href="/profiles/{{ pluginInfo.name }}">{{ pluginInfo.name | replace_underscore}}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li><a href="{% url 'report' current_session.id %}"><i class='glyphicon glyphicon-file'></i> <span>Report</span></a></li>
+        </ul><!-- /.configuration-menu -->
+
+    </section>
+    <!-- /.sidebar -->
+</aside>

@@ -1,0 +1,27 @@
+__author__ = 'RongShun'
+
+from django import forms
+from django.db import models
+from django.forms import ModelForm
+from lib.common.commands.adb import Adb
+from lib.common.constant import SCRIPTED_PROFILE_INTERACTION, RANDOM_INTERACTION
+from lib.core.managers.session import get_current_device_serial
+
+adb= Adb()
+class ConfigForm(forms.Form):
+    """
+    This class handles the creation of django form on configuration interface.
+    For more information on django form, visit https://docs.djangoproject.com/en/1.7/ref/forms/fields/
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    NOTE: get_current_device_serial() method is useful to get the device's serial number that you are interested in.
+    You might need it to extract information from the particular device for form manipulation
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    """
+
+    #EXAMPLE FORM
+    enable_profile = forms.BooleanField()
+    choices = (
+        (SCRIPTED_PROFILE_INTERACTION, "run profile simulation script"),
+        (RANDOM_INTERACTION, "random simulation")
+    )
+    simulation_option = forms.ChoiceField(choices)

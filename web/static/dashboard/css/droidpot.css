@@ -1,0 +1,42 @@
+#logo-container {
+    height: 20px;
+    margin-bottom: 32px;
+}
+
+header, main, footer {
+    padding-left: 240px;
+  }
+
+  @media only screen and (max-width : 992px) {
+    header, main, footer {
+      padding-left: 0;
+    }
+  }
+
+.user {
+    background: url('../../images/user-bg.png');
+    background-size: cover;
+    opacity: .2;
+    height: 94px;
+
+}
+
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: relative; !important;
+    left: auto; !important;
+    visibility: visible; !important;
+}
+
+
+
+ul.side-nav.fixed li.logo {
+  text-align: center;
+  margin-top: 32px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #ddd;
+}
+
+ul.side-nav.fixed li a {
+  line-height: 44px;
+  height: 44px;
+}

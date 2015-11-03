@@ -1,0 +1,9 @@
+
+[Core]
+Name = system_properties
+Module = system_properties
+
+[Documentation]
+Author = new author
+Version = 0.1
+Description = new profile

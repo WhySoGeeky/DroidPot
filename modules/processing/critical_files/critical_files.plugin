@@ -1,0 +1,9 @@
+
+[Core]
+Name = critical_files
+Module = critical_files
+
+[Documentation]
+Author = new author
+Version = 0.1
+Description = new profile

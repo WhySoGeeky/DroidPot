@@ -1,0 +1,8 @@
+[Core]
+Name = Syscall Monitor
+Module = syscallMonitor
+
+[Documentation]
+Author = RongShun
+Version = 0.1
+Description = Monitor system calls of running process

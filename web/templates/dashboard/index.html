@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+{% block title %} Dashboard {% endblock %}
+
+{% block content-title %}
+    Dashboard
+{% endblock %}
+
+{% block content-subtitle %}
+    Version 1.0
+{% endblock %}
+
+{% block alerts %}
+    {% if create_new_session %}
+        <div class="alert alert-info" role="alert" xmlns="http://www.w3.org/1999/html">New session created</div>
+    {% endif %}
+    {% if not devices %}
+        <div class="alert alert-danger" role="alert"><strong>No Android device found</strong>. Ensure device is
+            connected and <strong>refresh page</strong>.
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="glyphicon glyphicon-tasks"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Session ID</span>
+                    <span class="info-box-number">{{ current_session.id }}</span>
+                    <span class="info-box-text">{{ current_session.start_datetime }} (Created)</span>
+
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+
+        <div class="col-md-4">
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="glyphicon glyphicon-th"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Modules Loaded</span>
+                    <span class="info-box-number">{{ module_total }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+
+        <div class="col-md-4">
+            <div class="info-box">
+                <span class="info-box-icon bg-blue"><i class="glyphicon glyphicon-file"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Report</span>
+                    <span class="info-box-number">0</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <!-- New session button -->
+            <a class="btn btn-danger btn-new-session" href="{% url 'new_session' %}" role="button"
+               onclick="return confirm('Are you sure?')">
+                NEW SESSION
+            </a>
+            <!-- /New session button -->
+            <!-- load session button -->
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    Copy Configuration From <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu scrollable-menu">
+                    {% for session in sessions %}
+                        <li><a href="{% url 'copy_config' session.id current_session.id %}">{{ session.id }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- /load session button -->
+        </div>
+    </div>
+    <br><br>
+    <div class="row"> <!-- .row -->
+        <div class="col-md-8">
+            <div class="row">
+                <!-- .running sessions summary -->
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Analysis in Progress</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Progress</th>
+                                    <th>Option</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for session in sessions %}
+                                    {% if session.status == "ANA" %}
+                                        <tr>
+                                            <td>{{ session.id }}</td>
+                                            <td class="progress_{{ session.id }}">
+                                                <span class="progress_{{ session.id }}_text"></span>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-warning btn-new-session"
+                                                   id="end-session-{{ session.id }}"
+                                                   href="/" role="button"
+                                                   onclick="return endSession('{% url 'end_session' session.id %}', '{{ session.id }}')">
+                                                    END SESSION
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- ./running sessions summary -->
+
+                <!-- .configuration summary -->
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Configuration Summary</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            {% for module,params in session_config.items %}
+                                <strong><u>{{ module }}</u></strong>
+                                <p>
+                                    {% for param,value in params.items %}
+                                        <strong>{{ param }}:</strong> {{ value }}
+                                    {% endfor %}
+                                </p>
+                            {% endfor %}
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- ./configuration summary -->
+            </div>
+        </div>
+
+
+        <!-- .device summary -->
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="info-box {% if devices %} bg-green {% else %} bg-red {% endif %}">
+                        <span class="info-box-icon"><i class="glyphicon glyphicon-phone"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Selected Device Serial</span>
+                            <span class="info-box-number">
+                                {{ selected_device }}
+                            </span>
+                            <span class="info-box-text">
+                                {% if devices %}
+                                    {{ devices|length }} devices connected
+                                {% else %}
+                                    No device connected!
+                                {% endif %}
+                            </span>
+
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+
+
+                    <!--select device button-->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            Choose Device <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu scrollable-menu">
+                            {% for device,status in devices.items %}
+                                <li>
+                                    <a href="{% url 'select_device' device current_session.id %}">{{ device }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!--/select device button-->
+                </div>
+            </div>
+        </div>
+        <!-- ./device summary -->
+    </div> <!-- ./row -->
+
+
+
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        function endSession(end_url, session_id){
+            isConfirmed = confirm("are u sure?");
+            if (isConfirmed) {
+                $.get(end_url);
+            }
+
+        }
+
+        function is_session_expired(){
+            {% for session in sessions %}
+                {% if session.status == "ANA" %}
+                var session_id = "{{ session.id }}";
+                var is_end_time = $.get("check_time/"+session_id, function(data){
+                    var shouldEnd = data.shouldEnd;
+                    var is_stopping = data.is_stopping;
+                    //alert(is_stopping);
+                    //alert(shouldEnd);
+                    if (shouldEnd == true && is_stopping == false) {
+                        //alert("run");
+                        var end_url = "{% url 'end_session' session.id %}";
+                        $.get(end_url);
+                    }
+
+                });
+
+
+                {% endif %}
+            {% endfor %}
+            setTimeout(is_session_expired,2000)
+        }
+
+        function session_progress() {
+            {% for session in sessions %}
+                {% if session.status == "ANA" %}
+                    var session_id = "{{ session.id }}";
+                    var get_progress = $.get("progress/" + session_id, function () {
+                    });
+                    get_progress.done(function (progress, isRestoring) {
+                        original = $(".progress_" + session_id+"_text").text();
+
+                        if (original != progress) {
+                            $(".progress_" + session_id + "_text").slideUp();
+                            $(".progress_" + session_id + "_text").html(progress);
+                            $(".progress_" + session_id + "_text").slideDown();
+
+                        }
+                        //if (isRestoring) {
+                          //  var end_session_btn = "#end-session-" + session_id;
+                            //$(end_session_btn).attr("disabled","true");
+                        //}
+                        setTimeout(session_progress,1000)
+                    });
+                    get_progress.fail(function (data) {
+                        $(".progress_" + session_id).html("Not available");
+                        setTimeout(session_progress,1000)
+                    });
+
+                {% endif %}
+            {% endfor %}
+        }
+
+        $(document).ready(function () {
+            session_progress();
+            is_session_expired();
+        });
+    </script>
+{% endblock %}
+
+

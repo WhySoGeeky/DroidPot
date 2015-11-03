@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block title %} Profile {% endblock %}
+
+{% block content-title %}
+    {{ module_info.name }}
+{% endblock %}
+
+{% block content-subtitle %}
+    {{ module_info.description }}
+{% endblock %}
+
+{% block alerts %}
+    {% if apply %}
+        <div class="alert alert-info" role="alert">{{ module_info.name }} configuration saved!</div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post">sd
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Configuration</h3>
+                        <div class="box-tools pull-right">
+                            <!--<span class="label label-primary">Label</span>-->
+                        </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        {{ module_form|bootstrap}}
+                    </div><!-- /.box-body -->
+                    <div class="box-footer">
+                        <button class="btn btn-default" type="submit">Apply</button>
+                    </div><!-- box-footer -->
+                </div><!-- /.box -->
+
+            </div>
+        </div>
+    </form>
+
+{% endblock%}
+
+

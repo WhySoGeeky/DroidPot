@@ -1,0 +1,8 @@
+[Core]
+Name = API Monitor
+Module = apiMonitor
+
+[Documentation]
+Author = RongShun
+Version = 0.1
+Description = Monitor API calls of app

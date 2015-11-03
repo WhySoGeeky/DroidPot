@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %} Dashboard {% endblock %}
+
+{% block content-title %}
+    Upload APK
+{% endblock %}
+
+{% block content-subtite %}
+    APK files to be analysis
+{% endblock %}
+
+{% block alerts %}
+    {% if create_new_session %}
+        <div class="alert alert-info" role="alert" xmlns="http://www.w3.org/1999/html">New session created</div>
+    {% endif %}
+    {% if not devices %}
+        <div class="alert alert-danger" role="alert"><strong>No Android device found</strong>. Ensure device is connected and <strong>refresh page</strong>.</div>
+    {% endif %}
+    {% if upload_result %}
+        <div class="alert alert-success" role="alert"><strong>Apk uploaded successfully.</strong></div>
+    {% elif upload_result == False %}
+        <div class="alert alert-error" role="alert"><strong>Upload error.</strong></div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data" data-ajax="false">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">APK selection</h3>
+                        <div class="box-tools pull-right">
+                            <!--<span class="label label-primary">Label</span>-->
+                        </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="control-label" for="input_upload">APK files</label>
+                            <input id="input-upload" name="upload" type="file" class="file-control" data-preview-file-type="text" multiple="true" />
+                            <span class="help-block">Select one/multiple APK file for analysis</span>
+                        </div>
+                    </div><!-- /.box-body -->
+                    <div class="box-footer">
+                    </div><!-- box-footer -->
+                </div><!-- /.box -->
+
+            </div>
+        </div>
+    </form>
+
+{% endblock%}
+
+

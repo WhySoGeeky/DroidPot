@@ -1,0 +1,9 @@
+
+[Core]
+Name = profile1
+Module = profile1
+
+[Documentation]
+Author = rongshun
+Version = 0.1
+Description = device interact simulation.

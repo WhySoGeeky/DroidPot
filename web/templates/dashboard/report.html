@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %} Dashboard {% endblock %}
+
+{% block content-title %}
+    Reports
+{% endblock %}
+
+{% block content-subtite %}
+    Analysis result after session is completed
+{% endblock %}
+
+{% block alerts %}
+    {% if create_new_session %}
+        <div class="alert alert-info" role="alert" xmlns="http://www.w3.org/1999/html">New session created</div>
+    {% endif %}
+    {% if not devices %}
+        <div class="alert alert-danger" role="alert"><strong>No Android device found</strong>. Ensure device is connected and <strong>refresh page</strong>.</div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data" data-ajax="false">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Report selection</h3>
+                        <div class="box-tools pull-right">
+                            <!--<span class="label label-primary">Label</span>-->
+                        </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="form-group">
+                            <!---
+                            <table class="table">
+                                <thread>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Session Start Date/Time</th>
+                                        <th>MD5</th>
+                                        <th>Package Name</th>
+                                        <th>Filename</th>
+                                        <th>Detection</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thread>
+                                <tbody>
+                                    <tr>
+                                        <td class="id">1</td>
+                                        <td class="analysis_date">1</td>
+                                        <td class="hash">test md5</td>
+                                        <td class="packageName">com.test.www</td>
+                                        <td class="filename">test.apk</td>
+                                        <td class="detection">asd</td>
+                                        <td class="details">
+                                            <a class="btn btn-default" href="#" type="button">More details</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            -->
+                            <table class="table">
+                                <thread>
+                                    <tr>
+                                        <th>session id</th>
+                                        <th>package name</th>
+                                        <th>md5</th>
+                                        <th>details</th>
+                                    </tr>
+                                </thread>
+                                <tbody>
+                                    {% for report in reports %}
+                                        <tr>
+                                            <td>{{ report.session.id }}</td>
+                                            <td>{{ report.package_name }}</td>
+                                            <td>{{ report.md5 }}</td>
+                                            <td><a class="btn btn-default" href="{% url 'report_details' report.session.id %}" type="button">More details</a></td>
+                                        </tr>
+
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div><!-- /.box-body -->
+                    <div class="box-footer">
+                    </div><!-- box-footer -->
+                </div><!-- /.box -->
+
+            </div>
+        </div>
+    </form>
+
+{% endblock%}
+
+
