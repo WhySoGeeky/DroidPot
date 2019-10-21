@@ -6,5 +6,5 @@ django-jsonify==0.3.0
 json2html==0.3
 ordereddict==1.1
 uiautomator==0.2.5
-urllib3==1.12
+urllib3==1.24.2
 Yapsy==1.11.23
