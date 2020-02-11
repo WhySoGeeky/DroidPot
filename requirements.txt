@@ -1,4 +1,4 @@
-Django==1.8.5
+Django==1.11.28
 django-admin-tools==0.5.2
 django-bootstrap-breadcrumbs==0.7.1
 django-bootstrap-form==3.2
